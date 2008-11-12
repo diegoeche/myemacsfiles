@@ -158,6 +158,11 @@
 (set-fontset-font (frame-parameter nil 'font)
       'han '("cwTeXHeiBold" . "unicode-bmp"))
 
+;; This should fix the clipboard 
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
+
 
 (global-set-key [f3] 'shell)
 (global-set-key [f4] 'find-file)
