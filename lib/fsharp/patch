@@ -1,0 +1,11 @@
+--- inf-fsharp.el	2008-04-23 23:19:32.000000000 +0200
++++ patched.el	2008-11-09 21:04:31.000000000 +0100
+@@ -184,7 +184,7 @@
+     (if (and (>= (point) 2)
+              (prog2 (backward-char 2) (looking-at ";;")))
+         (comint-send-string inferior-fsharp-buffer-name "\n")
+-      (comint-send-string inferior-fsharp-buffer-name ";;\n"))
++      (comint-send-string inferior-fsharp-buffer-name "\n;;\n"))
+     ;; the user may not want to see the output buffer
+     (if fsharp-display-when-eval
+         (display-buffer inferior-fsharp-buffer-name t))))
