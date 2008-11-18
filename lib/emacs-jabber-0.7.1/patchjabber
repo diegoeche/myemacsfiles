@@ -1,0 +1,22 @@
+-----BEGIN PATCH-----
+--- jabber-conn.el.orig 2006-04-23 18:09:56.000000000 +0300
++++ jabber-conn.el      2008-04-21 21:40:34.694079414 +0300
+@@ -132,7 +132,7 @@
+            (when (setq *jabber-connection*
+                        (open-network-stream
+                         "jabber"
+-                        jabber-process-buffer
++                        (get-buffer-create jabber-process-buffer)
+                         (car target)
+                         (cdr target)))
+              (throw 'connected t))
+@@ -165,7 +165,7 @@
+       (setq *jabber-connection*
+            (funcall connect-function
+                     "jabber"
+-                    jabber-process-buffer
++                    (get-buffer-create jabber-process-buffer)
+                     (or jabber-network-server jabber-server)
+                     (or jabber-port 5223)))))
+ 
+-----END PATCH----- 
