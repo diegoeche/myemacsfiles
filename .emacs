@@ -1,26 +1,34 @@
 (custom-set-variables
-  ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(case-fold-search t)
  '(current-language-environment "ASCII")
  '(global-font-lock-mode t nil (font-lock))
+ '(jabber-connection-type (quote ssl))
+ '(jabber-network-server "talk.google.com")
+ '(jabber-nickname "Diegoeche")
+ '(jabber-password nil)
+ '(jabber-server "gmail.com")
+ '(jabber-username "diegoeche")
  '(mouse-wheel-mode t nil (mwheel))
- '(standard-indent 4)
  '(show-paren-mode t nil (paren))
+ '(standard-indent 4)
  '(transient-mark-mode t)
  '(visible-bell t))
 (custom-set-faces
-  
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  )
-
-
 (display-time)
 (line-number-mode 1)
 (column-number-mode 1)
 (setq scroll-bar-mode nil)
 
 (require 'cc-mode)
-
 (load "font-lock")
 
 ;; Inicio
@@ -35,11 +43,12 @@
 (server-mode)
 
 ;; Identacion
-
 (add-hook 'c-mode-common-hook
           (lambda ()
             (c-set-style "k&r")
             (setq c-basic-offset 4)))
+
+;;; Modes
 
 ;;; Shell mode
 (setq ansi-color-names-vector ; better contrast colors
@@ -47,11 +56,7 @@
        "blue3" "magenta4" "cyan4" "white"])
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
- ;; ===== Automatically load abbreviations table =====
 
-
-
-;; Modos personalizados
 
 ;; F-Sharp
 (setq load-path (cons "~/lib/fsharp" load-path))
@@ -62,6 +67,15 @@
 
 (setq inferior-fsharp-program "~/lib/fsharp/fsi.sh")
 (setq fsharp-compiler "~/lib/fsharp/fsc.sh")
+(add-hook 'fsharp-mode-hook (lambda () (outline-minor-mode)
+                              (setq outline-regexp " *\\(let ..\\|type .\\|module\\)"))) 
+
+
+
+;; Jabber
+
+(add-to-list 'load-path "~/lib/emacs-jabber-0.7.1/")
+(require 'jabber)
 
 (if (and (boundp 'window-system) window-system)
     (when (string-match "XEmacs" emacs-version)
@@ -71,17 +85,17 @@
 
 
 (setq load-path (cons "~/lib/haskell-mode-2.3" load-path))
-  (setq auto-mode-alist
-       (append auto-mode-alist
-                    '(("\\.[hg]s$"  . haskell-mode)
-                     ("\\.hi$"     . haskell-mode)
-                     ("\\.l[hg]s$" . literate-haskell-mode))))
-  (autoload 'haskell-mode "haskell-mode"
-     "Major mode for editing Haskell scripts." t)
-  (autoload 'literate-haskell-mode "haskell-mode"
-     "Major mode for editing literate Haskell scripts." t)
+(setq auto-mode-alist
+      (append auto-mode-alist
+              '(("\\.[hg]s$"  . haskell-mode)
+                ("\\.hi$"     . haskell-mode)
+                ("\\.l[hg]s$" . literate-haskell-mode))))
+(autoload 'haskell-mode "haskell-mode"
+  "Major mode for editing Haskell scripts." t)
+(autoload 'literate-haskell-mode "haskell-mode"
+  "Major mode for editing literate Haskell scripts." t)
 
-;;(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+
 (add-hook 'haskell-mode-hook 'turn-on-haskell-font-lock)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -128,7 +142,6 @@
 (require 'paren)  
 
 (setq c-tab-always-indent "other") 
-
  
 (setq-default indent-tabs-mode nil) ; Espacios en vez de tabuladores
 
@@ -139,9 +152,6 @@
 (require 'font-lock)
 (require 'lazy-lock)
 
-(define-key c-mode-map "\C-m" 'newline-and-indent)
-(define-key c++-mode-map "\C-m" 'newline-and-indent)
-
 (setq auto-mode-alist
         (append '(
 		  ("configure.in" . m4-mode)
@@ -149,21 +159,17 @@
 		  ("\\.am\\'" . makefile-mode))
 		  auto-mode-alist))
 
-
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
-;;(set-default-font "Inconsolata-14")
 (set-default-font "Consolas-14")
 (set-fontset-font (frame-parameter nil 'font)
-      'han '("cwTeXHeiBold" . "unicode-bmp"))
+                  'han '("cwTeXHeiBold" . "unicode-bmp"))
 
 ;; This should fix the clipboard 
 (global-set-key "\C-w" 'clipboard-kill-region)
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
-
-
 (global-set-key [f3] 'shell)
 (global-set-key [f4] 'find-file)
 (global-set-key [f5] 'compile)
