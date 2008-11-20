@@ -1,4 +1,16 @@
-This is what i use in my emacs... maybe is not the standard way but who 
-cares. 
+This is what i use in my .Emacs 
 
-This should go in the ~/ directory
+Most of the code was not written by me. I have only done some customizations
+and patches for known bugs in the packages.
+
+If you find a bug or want to share your Emacs expertise to make my life
+easier please contact me at diegoeche _ at _ gmail.com
+
+All _MY_ code is licenced on a MIT basis whenever is applicable
+
+
+**** Quick Start ****  
+
+Put everything in ~/ 
+
+Easy... isn't it?
