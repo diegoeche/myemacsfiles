@@ -1,1 +1,1 @@
-mono ~/Desktop/FSharp-1.9.6.2/bin/fsc.exe 
+mono ~/FSharp-1.9.6.2/bin/fsc.exe $1 $2 $3
