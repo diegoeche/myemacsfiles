@@ -281,11 +281,11 @@ If prefix arg \\[universal-argument] is given, just reload the previous file."
         ;; Go to the root of the Cabal project, if applicable.
         (when (and inferior-haskell-find-project-root
                    (setq root (inferior-haskell-find-project-root buf)))
-          ;; Not sure if it's useful/needed and if it actually works.
-          (unless (equal default-directory root)
-            (setq default-directory root)
-            (inferior-haskell-send-command
-             proc (concat ":cd " default-directory)))
+          ;; Not sure if it's useful/needed and if it actually works. Fix for :load
+;;;           (unless (equal default-directory root)
+;;;             (setq default-directory root)
+;;;             (inferior-haskell-send-command
+;;;              proc (concat ":cd " default-directory)))
           (setq file (file-relative-name file)))
 	(inferior-haskell-send-command
          proc (if reload ":reload" (concat ":load \"" file "\"")))

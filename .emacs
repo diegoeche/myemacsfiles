@@ -6,6 +6,7 @@
  '(case-fold-search t)
  '(current-language-environment "ASCII")
  '(global-font-lock-mode t nil (font-lock))
+ '(hs-lint-command "~/.cabal/bin/hlint")
  '(jabber-connection-type (quote ssl))
  '(jabber-network-server "talk.google.com")
  '(jabber-nickname "Diegoeche")
@@ -56,7 +57,10 @@
        "blue3" "magenta4" "cyan4" "white"])
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-
+;; w3mc
+(add-to-list 'load-path "~/lib/emacs-w3m/")
+(require 'w3m-load)
+(setq w3m-use-cookies t)
 
 ;; F-Sharp
 (setq load-path (cons "~/lib/fsharp" load-path))
@@ -73,95 +77,68 @@
 
 
 ;; Jabber
-
 (add-to-list 'load-path "~/lib/emacs-jabber-0.7.1/")
 (require 'jabber)
 
-(if (and (boundp 'window-system) window-system)
-    (when (string-match "XEmacs" emacs-version)
-       	(if (not (and (boundp 'mule-x-win-initted) mule-x-win-initted))
-            (require 'sym-lock))
-       	(require 'font-lock)))
+;; Haskell Customizations
+(load "~/lib/haskell-mode-2.4/haskell-site-file")
+(add-hook 'haskell-mode-hook 
+          '(lambda () (setq haskell-program-name "~/lib/haskell-mode-2.4/ghci-no-tty.sh")))
 
+;; Small function for evaluating selected code 
+(defun inferior-haskell-eval-region (start end)
+  "Send the current region to the inferior fsharp process."
+  (interactive "r")
+  (save-excursion
+    (goto-char end)
+    (inferior-haskell-send-command (inferior-haskell-process) (buffer-substring start end))))
+(load "~/lib/haskell-mode-2.4/hs-lint")
 
-(setq load-path (cons "~/lib/haskell-mode-2.3" load-path))
-(setq auto-mode-alist
-      (append auto-mode-alist
-              '(("\\.[hg]s$"  . haskell-mode)
-                ("\\.hi$"     . haskell-mode)
-                ("\\.l[hg]s$" . literate-haskell-mode))))
-(autoload 'haskell-mode "haskell-mode"
-  "Major mode for editing Haskell scripts." t)
-(autoload 'literate-haskell-mode "haskell-mode"
-  "Major mode for editing literate Haskell scripts." t)
+(require 'hs-lint)
+(defun my-haskell-mode-hook ()
+  (local-set-key "\C-c\C-r" 'inferior-haskell-eval-region)
+  (local-set-key "\C-cl" 'hs-lint))
+(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
-
-(add-hook 'haskell-mode-hook 'turn-on-haskell-font-lock)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-ghci)
+;; Other legacy stuff
 
 (setq load-path (cons "~/lib" load-path))
 (setq load-path (cons "~/lib/themes" load-path))
-(setq load-path (cons "~/lib/ruby" load-path))
 (load "lib")
 (load "color-theme")
 (load "color-theme-autoloads")
 (load "color-theme-library")
 
-;;(require 'ruby-mode)
-(load "inf-ruby")
-(load "rubydb3x")
-
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode)))
-
-(autoload 'ruby-mode "ruby-mode" "Ruby editing mode." t)
-(add-to-list 'auto-mode-alist '("\.rb$" . ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-
-;; Colores
-
+;; Colors
 (color-theme-comidia)
-;; Stuff
 
+;; Stuff
 (setq search-highlight t)
 (setq query-replace-highlight t)
-
-(setq default-fill-column 77)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'c++-mode-hook 'turn-on-auto-fill)
-(add-hook 'c-mode-hook 'turn-on-auto-fill)
-(add-hook 'ruby-mode-hook 'turn-on-auto-fill)
-
+(setq default-fill-column 85)
 (setq next-line-add-newlines nil)
 
-; Para que se marquen los paréntesis y 
-; y las llaves
+;; Parens
 (require 'paren)  
-
 (setq c-tab-always-indent "other") 
- 
-(setq-default indent-tabs-mode nil) ; Espacios en vez de tabuladores
 
-;; Coloreado automático de sintaxis para todos los modos reconocidos
+;; Tabs replacement
+(setq-default indent-tabs-mode nil) 
+
+;; Syntax highlighting
 (global-font-lock-mode t)
 (setq font-lock-support-mode 'lazy-lock-mode)
 (setq font-lock-maximum-size nil)       
 (require 'font-lock)
 (require 'lazy-lock)
-
 (setq auto-mode-alist
         (append '(
 		  ("configure.in" . m4-mode)
 		  ("\\.m4\\'" . m4-mode)
 		  ("\\.am\\'" . makefile-mode))
 		  auto-mode-alist))
-
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-
 (set-default-font "Consolas-14")
 (set-fontset-font (frame-parameter nil 'font)
                   'han '("cwTeXHeiBold" . "unicode-bmp"))
@@ -170,6 +147,8 @@
 (global-set-key "\C-w" 'clipboard-kill-region)
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
+
+;; Using the f keys creatively
 (global-set-key [f3] 'shell)
 (global-set-key [f4] 'find-file)
 (global-set-key [f5] 'compile)
