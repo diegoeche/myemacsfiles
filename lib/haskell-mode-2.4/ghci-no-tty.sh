@@ -1,2 +1,3 @@
-# So ghci+readline won't echo input
-cat | /usr/local/bin/ghci $*
+## So ghci+readline won't echo input
+cat | ghci $*
+

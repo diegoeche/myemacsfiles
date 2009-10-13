@@ -1,1 +1,1 @@
-mono ~/FSharp-1.9.6.2/bin/fsi.exe --no-gui
+mono ~/Programs/FSharp-1.9.6.16/bin/fsi.exe 
