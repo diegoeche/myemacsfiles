@@ -125,6 +125,9 @@
 (load "color-theme-library")
 (set-default-font "Consolas-14") 
 
+;; Gist
+(require 'gist)
+
 ;; Colors
 (color-theme-comidia)
 
@@ -133,6 +136,7 @@
 (setq query-replace-highlight t)
 (setq default-fill-column 85)
 (setq next-line-add-newlines nil)
+
 
 ;; Parens
 (require 'paren)  
