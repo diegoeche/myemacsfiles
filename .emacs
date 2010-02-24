@@ -3,7 +3,8 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(browse-url-browser-function (quote browse-url-firefox))
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "google-chrome")
  '(case-fold-search t)
  '(current-language-environment "ASCII")
  '(global-font-lock-mode t nil (font-lock))
@@ -15,6 +16,7 @@
  '(jabber-password nil)
  '(jabber-server "gmail.com")
  '(jabber-username "diegoeche")
+ '(markdown-command "pandoc -s")
  '(mouse-wheel-mode t nil (mwheel))
  '(show-paren-mode t nil (paren))
  '(standard-indent 4)
@@ -84,8 +86,11 @@
 (yas/load-directory yas/root-directory)
 (yas/load-directory "~/lib/scala-mode/contrib/yasnippet/snippets")
 
-
-
+;; Markdown
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 ;; js2
 
@@ -107,7 +112,7 @@
 
 ;; Small function for evaluating selected code
 (defun inferior-haskell-eval-region (start end)
-  "Send the current region to the inferior fsharp process."
+  "Send the current region to the inferior haskell process."
   (interactive "r")
   (save-excursion
     (goto-char end)
@@ -186,8 +191,11 @@
 (load "color-theme-autoloads")
 (load "color-theme-library")
 
+
+
 ;; (set-default-font "Consolas-13")
 (set-default-font "Dejavu Sans Mono 13")
+
 ;; Gist
 (require 'gist)
 
@@ -248,6 +256,10 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
+;; Chrome extension
+(require 'edit-server)
+    (edit-server-start)
+
 ;; (setq starttls-use-gnutls t)
 
 (setq send-mail-function 'smtpmail-send-it
@@ -294,5 +306,3 @@
 (global-set-key [f5] 'compile)
 (global-set-key [f6] 'align-regexp)
 (global-set-key [f11] 'my-toggle-fullscreen)
-
-
