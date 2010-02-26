@@ -7,6 +7,7 @@
  '(browse-url-generic-program "google-chrome")
  '(case-fold-search t)
  '(current-language-environment "ASCII")
+ '(g-xslt-program "iconv -ct utf-8 | xsltproc")
  '(global-font-lock-mode t nil (font-lock))
  '(haskell-font-lock-symbols t)
  '(hs-lint-command "~/.cabal/bin/hlint")
@@ -43,6 +44,16 @@
 
 ;;; Modes
 
+;; ido mode
+(ido-mode) ;; interactive autocompletion
+
+;; ibuffer
+(setq ibuffer-shrink-to-minimum-size t)
+(setq ibuffer-always-show-last-buffer nil)
+(setq ibuffer-sorting-mode 'recency)
+(setq ibuffer-use-header-line t)
+(global-set-key [(f12)] 'ibuffer)
+
 ;;; Shell mode
 (setq ansi-color-names-vector ; better contrast colors
       ["black" "red4" "green4" "yellow4"
@@ -53,6 +64,13 @@
 (add-to-list 'load-path "~/lib/emacs-w3m/")
 (require 'w3m-load)
 (setq w3m-use-cookies t)
+
+;; Google lib
+(setq load-path (cons "~/lib/g-client" load-path))
+
+(load-library "g")
+(setq g-user-email "diegoeche@gmail.com")
+;; (setq g-html-handler 'w3m-buffer)
 
 ;; C-Sharp
 
@@ -255,12 +273,6 @@
 ;; Enable this commands
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
-;; Chrome extension
-(require 'edit-server)
-    (edit-server-start)
-
-;; (setq starttls-use-gnutls t)
 
 (setq send-mail-function 'smtpmail-send-it
       message-send-mail-function 'smtpmail-send-it
