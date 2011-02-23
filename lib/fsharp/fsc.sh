@@ -1,1 +1,0 @@
-mono ~/Programs/FSharp-1.9.6.16/bin/fsc.exe $1 $2 $3

@@ -4,7 +4,7 @@
 ### Please rewrite the following 3 variables 
 ### ($ghc, @ghc_options and @ghc_packages)
 
-$ghc = '/usr/bin/ghc'; # where is ghc
+$ghc = 'ghc'; # where is ghc
 @ghc_options  = ('-Wall');   # e.g. ('-fglasgow-exts')
 @ghc_packages = ();          # e.g. ('QuickCheck')
 
