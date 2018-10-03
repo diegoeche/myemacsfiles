@@ -61,6 +61,11 @@
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
 
+;; OSX remapping
+(setq mac-command-modifier 'meta)
+(setq ring-bell-function 'ignore)
+
+
 ;; ;; Other
 (global-set-key [(meta g)] 'goto-line)
 (define-key global-map "\M-4" 'query-replace)
